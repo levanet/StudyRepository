@@ -125,8 +125,10 @@ class Animal:
     def __init__(self, name, color):
         self.name = name
         self.color = color
+
     def wolfer(self):
         print("Grrr...")
+
 
 class Cat(Animal):
     def purr(self):
@@ -136,12 +138,79 @@ class Cat(Animal):
 class Dog(Animal):
     def bark(self):
         print("Woof!")
-        super().wolfer() #метод super предназначен для того, чтобы обращатся к методам суперкласса
+        super().wolfer()  # метод super предназначен для того, чтобы обращатся к методам суперкласса
+
 
 fido = Dog("Alfred", "Blue")
 print(fido.name)
 fido.bark()
 
+
 # Если наследуемый класс (суперкласс) имеет такие же атрибуты или методы, что и класс-наследник(подкласс)
 # то класс наследник переопределяет их
+
+# Магические методы - это медоды с двойными подчеркиваниями, зачастую применяются для переопределения операторов
+# подразумевается опеределение операторов для пользовательских классов, которые поддерживают такие операторы как :"+" и "*"
+# пример магического метода __add__ для операции +
+# Выражение x + y представляется как x.__add__(y)
+# Но если метод __add__ не выполнялся, а х и у различных типов, тогда используется y.__radd__(x)
+# у всех упоменутых далее магических методов есть аналогичные методы r
+class Vector2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Vector2D(self.x + other.x, self.y + other.y)
+
+    def __mul__(self, other):
+        print("Вы умножили!")
+        return Vector2D(self.x * other.x, self.y * other.y)
+
+    def __sub__(self, other):
+        return Vector2D(self.x - other.x, self.y - other.y)
+
+
+first = Vector2D(5, 7)
+second = Vector2D(3, 9)
+result = first * second
+print(result.x)
+print(result.y)
+
+# __sub__ - необходим для оператора -
+# __mul__ - для *
+# __truediv__ - для /
+# __floordiv__ - для //
+# __mod__ - для %
+# __pow__ - для **
+# __and__ - для &
+# __xor__ - для ^
+# __or__ - для |
+
+class SpecialString:
+    def __init__(self, cont):
+        self.cont=cont
+    def __truediv__(self, other):
+        line = "=" * len(other.cont)
+        return "\n".join([self.cont, line, other.cont])
+
+spam = SpecialString("Spam")
+hello= SpecialString("Hello!")
+print(spam/hello)
+# самостоятельный разбор join
+'''
+a="ТЫ"
+b="Говно"
+print(a,b)
+shit=[a,b]
+c= "\n".join(shit)
+print(c)
+'''
+# магические методы для сравнения
+# __lt__ - для <
+# __le__ - для <=
+# __eq__ - для ==
+# __ne__ - для != если не выполняется то возвращается противоположное __eq__
+# __gt__ - для >
+# __ge__ - для >=
 
